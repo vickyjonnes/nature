@@ -36,7 +36,29 @@ public class BinaryTree {
 	}
 	
 	public boolean deleteNode(Node node) {
-		return false;
+		root=deleteNode(root, node);
+		return true;
+	}
+	
+	private Node deleteNode(Node root, Node node) {
+		if(root==null) {
+			return root;
+		}
+		if(node.getValue()<root.getValue()) {
+			root.left=deleteNode(root.left, node);
+		}else if(node.getValue()>root.getValue()) {
+			root.right=deleteNode(root.right, node);
+		}else {
+			if(root.left==null)
+				return root.right;
+			else if(root.right==null)
+				return root.left;
+			
+			Node rightSuccessor=inorderRightSuccessor(root.right);
+			root.setValue(rightSuccessor.getValue());
+			root.right=deleteNode(root.right, rightSuccessor);
+		}
+		return root;
 	}
 	
 	public BinaryTree build(int values[]) {
@@ -98,5 +120,12 @@ public class BinaryTree {
 		int leftHeight=calculateHeight(root.left);
 		int rightHeight=calculateHeight(root.right);
 		return 1+Math.max(leftHeight, rightHeight);
+	}
+	
+	private Node inorderRightSuccessor(Node node) {
+		while(node.left!=null) {
+			node=node.left;
+		}
+		return node;
 	}
 }
