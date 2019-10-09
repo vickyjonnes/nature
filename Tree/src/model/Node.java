@@ -14,6 +14,10 @@ public class Node {
 		return this.value;
 	}
 	
+	public void setValue(int value) {
+		this.value=value;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

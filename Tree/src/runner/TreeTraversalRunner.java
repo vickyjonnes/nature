@@ -23,6 +23,9 @@ public class TreeTraversalRunner {
 		System.out.println("Inorder");
 		treversal.inorderTraversal(bt.root);
 		System.out.println();
+		
+		bt.deleteNode(new Node(8));
+		
 		System.out.println("Iterative Inorder");
 		treversal.iterativeInorder(bt.root);
 		System.out.println();
