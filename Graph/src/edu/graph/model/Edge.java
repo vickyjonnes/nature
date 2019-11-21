@@ -1,21 +1,22 @@
 package edu.graph.model;
 
 public class Edge<T> {
-	private T v1;
-	private T v2;
-	private int w;
-	public Edge(T v1, T v2, int w) {
-		this.v1=v1;
-		this.v2=v2;
-		this.w=w;
+	public T vertex1;
+	public T vertex2;
+	public int weight;
+	public Edge(T vertex1, T vertex2, int weight) {
+		this.vertex1=vertex1;
+		this.vertex2=vertex2;
+		this.weight=weight;
 	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((v1 == null) ? 0 : v1.hashCode());
-		result = prime * result + ((v2 == null) ? 0 : v2.hashCode());
-		result = prime * result + w;
+		result = prime * result + ((vertex1 == null) ? 0 : vertex1.hashCode());
+		result = prime * result + ((vertex2 == null) ? 0 : vertex2.hashCode());
 		return result;
 	}
 	@Override
@@ -26,20 +27,18 @@ public class Edge<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Edge other = (Edge) obj;
-		if (v1 == null) {
-			if (other.v1 != null)
+		@SuppressWarnings("unchecked")
+		Edge<T> other = (Edge<T>) obj;
+		if (vertex1 == null) {
+			if (other.vertex1 != null)
 				return false;
-		} else if (!v1.equals(other.v1))
+		} else if (!vertex1.equals(other.vertex1))
 			return false;
-		if (v2 == null) {
-			if (other.v2 != null)
+		if (vertex2 == null) {
+			if (other.vertex2 != null)
 				return false;
-		} else if (!v2.equals(other.v2))
-			return false;
-		if (w != other.w)
+		} else if (!vertex2.equals(other.vertex2))
 			return false;
 		return true;
 	}
-	
 }
