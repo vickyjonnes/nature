@@ -5,7 +5,7 @@ import model.Node;
 public class DistanceOf2NodesInBinaryTree {
 
 	//https://www.geeksforgeeks.org/paytm-interview-experience-for-experienced-2/
-	//to get the lowest common ancesor of a binary tree
+	//to get the lowest common ancestor of a binary tree
 	public Node getLowestCommonAncestor(Node root, int n1, int n2) {
 		if(root==null)
 			return root;

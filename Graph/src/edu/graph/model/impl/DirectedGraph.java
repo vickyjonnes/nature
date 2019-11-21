@@ -1,40 +1,45 @@
 package edu.graph.model.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.graph.model.Edge;
 import edu.graph.model.Graph;
 
 public class DirectedGraph<T> implements Graph<T>{
 
 	private Map<T,Set<T>> adjMap=new HashMap<>();
 	private int edgeCount=0;
+	private ArrayList<Edge<T>> edges=new ArrayList<>();
+	@Override
+	public boolean addVertex(T vertex) {
+		if(!adjMap.containsKey(vertex)) {
+			adjMap.put(vertex, new HashSet<>());
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removeVertex(T vertex) {
+		if(adjMap.containsKey(vertex)) {
+			adjMap.values().stream().forEach(e->e.remove(vertex));
+			adjMap.remove(vertex);
+			return true;
+		}
+		return false;
+	}
+
 	
 	@Override
-	public boolean addVertex(T v) {
-		if(!adjMap.containsKey(v)) {
-			adjMap.put(v, new HashSet<>());
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean removeVertex(T v) {
-		if(adjMap.containsKey(v)) {
-			adjMap.values().stream().forEach(e->e.remove(v));
-			adjMap.remove(v);
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public boolean addEdge(T v1, T v2) {
-		if(adjMap.containsKey(v1) && adjMap.containsKey(v2)) {
-			adjMap.get(v1).add(v2);
+	public boolean addEdge(T vertex1, T vertex2, int weight) {
+		if(adjMap.containsKey(vertex1) && adjMap.containsKey(vertex2)) {
+			adjMap.get(vertex1).add(vertex2);
+			edges.add(new Edge<>(vertex1, vertex2, weight));
 			edgeCount++;
 			return true;
 		}
@@ -42,9 +47,15 @@ public class DirectedGraph<T> implements Graph<T>{
 	}
 
 	@Override
-	public boolean removeEdge(T v1, T v2) {
-		if(adjMap.containsKey(v1) && adjMap.containsKey(v2)) {
-			adjMap.get(v1).remove(v2);
+	public boolean addEdge(T vertex1, T vertex2) {
+		return addEdge(vertex1, vertex2,0);
+	}
+
+	@Override
+	public boolean removeEdge(T vertex1, T vertex2) {
+		if(adjMap.containsKey(vertex1) && adjMap.containsKey(vertex2)) {
+			adjMap.get(vertex1).remove(vertex2);
+			edges.removeIf(e->e.equals(new Edge<>(vertex1, vertex2, 0)));
 			edgeCount--;
 			return true;
 		}
@@ -67,8 +78,13 @@ public class DirectedGraph<T> implements Graph<T>{
 	}
 
 	@Override
-	public Set<T> getAdjacentVertices(T v) {
-		return adjMap.get(v);
+	public Set<T> getAdjacentVertices(T vertex) {
+		return adjMap.get(vertex);
+	}
+
+	@Override
+	public List<Edge<T>> getAllEdges() {
+		return edges;
 	}
 
 }
